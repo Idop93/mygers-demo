@@ -1,0 +1,223 @@
+/* MyGers demo. Part 1 is the design canvas's own stylesheet (board A2-Home), kept as written so screens match the boards.
+   Part 2 is what the running page adds: fitting the stage to the window, movement, and the placeholder. */
+
+/* ---------- Part 1: from the design canvas ---------- */
+body{margin:0}
+*{box-sizing:border-box}
+.stage{position:relative;overflow:hidden;width:1440px;height:900px;background:#061230;background-image:radial-gradient(ellipse 70% 60% at 50% 48%,#0f2c74 0%,rgba(6,18,48,0) 70%);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;color:#fff}
+.mocklabel{position:absolute;right:22px;bottom:18px;height:26px;padding:0 12px;border-radius:13px;border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;font-size:12px;font-weight:700;color:rgba(255,255,255,.78)}
+.plabel{position:absolute;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:14px;font-weight:800;color:#fff}
+.plabel small{font-size:12px;font-weight:600;color:rgba(255,255,255,.66)}
+.ticker{position:absolute;display:flex;align-items:center;gap:8px;height:34px;padding:0 12px 0 6px;border-radius:17px;background:rgba(4,16,43,.85);border:1px solid rgba(255,255,255,.16);font-size:12px;font-weight:600;color:#d5dae1;white-space:nowrap}
+.ticker b{color:#fff;font-weight:800}
+.pulse{width:8px;height:8px;border-radius:4px;background:#e11b22;box-shadow:0 0 0 4px rgba(225,27,34,.25);flex:none}
+.sc{position:absolute;transform-origin:top left}
+.phone{width:300px;height:620px;border-radius:40px;border:9px solid #0f1b2d;background:#f6f7f9;overflow:hidden;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#0f1b2d;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.08);display:flex;flex-direction:column;text-align:left}
+.ph-h{padding:18px 16px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex:none}
+.ph-h .t{display:flex;flex-direction:column;gap:1px;min-width:0}
+.ph-h .t small{font-size:11px;color:#5b6577;font-weight:600}
+.ph-h .t b{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.ph-h.bar{background:#fff;border-bottom:1px solid #e4e7ec;padding-bottom:9px}
+.crest{width:32px;height:32px;border-radius:16px;background:#0032a0;box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 5px #0032a0;flex:none;display:flex;align-items:center;justify-content:center}
+.crest i{display:none}.crest{width:34px!important;height:34px!important;background:url(assets/crests/rangers.svg) center/contain no-repeat!important;box-shadow:none!important;border-radius:0!important}
+.gstack{display:flex;flex:none}
+.gstack .av{margin-left:-7px;border:2px solid #f6f7f9}
+.ph-b{flex:1;min-height:0;overflow:hidden;padding:4px 14px 12px;display:flex;flex-direction:column;gap:9px}
+.ph-b.chat{justify-content:flex-end;padding-top:8px}
+.agent{display:flex;gap:8px;align-items:flex-start;background:#eef3ff;border:1px solid #b9c9f3;border-radius:14px;padding:9px 10px;font-size:11.5px;line-height:1.38;flex:none}
+.agent b{color:#0032a0}
+.eye{width:22px;height:22px;border-radius:11px;background:#0032a0;color:#fff;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.heroC{border-radius:18px;background:#0032a0;color:#fff;padding:13px;display:flex;flex-direction:column;gap:6px;flex:none}
+.heroC b{font-size:17px;line-height:1.15;font-weight:800}
+.heroC span{font-size:11px;font-weight:600;opacity:.9;line-height:1.4}
+.heroP{border-radius:18px;overflow:hidden;position:relative;color:#fff;padding:13px;min-height:120px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px;background:#0a1f5c;flex:none}
+.heroP b{font-size:16px;line-height:1.18;font-weight:800}
+.heroP span{font-size:11px;font-weight:600}
+.card{background:#fff;border:1px solid #e4e7ec;border-radius:16px;padding:11px 12px;box-shadow:0 1px 2px rgba(15,27,45,.04),0 6px 16px rgba(15,27,45,.05);flex:none}
+.lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5b6577}
+.statr{display:grid;grid-template-columns:1fr auto auto;gap:4px 10px;font-size:11.5px;align-items:baseline}
+.statr b{font-variant-numeric:tabular-nums}
+.statr i{font-style:normal;color:#5b6577;font-variant-numeric:tabular-nums}
+.row{display:flex;align-items:center;gap:8px}
+.li{display:flex;gap:9px;align-items:center;font-size:11.5px;line-height:1.32;padding:8px 0;border-top:1px solid #e4e7ec}
+.li:first-child{border-top:0;padding-top:0}
+.li b{display:block;font-size:12px}
+.s{color:#5b6577}
+.num{width:34px;height:34px;border-radius:17px;background:#0032a0;color:#fff;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.num.g{background:#eef1f4;color:#0f1b2d;font-size:10px}
+.msg{max-width:84%;padding:8px 10px;border-radius:14px 14px 14px 4px;background:#fff;border:1px solid #e4e7ec;font-size:12px;line-height:1.4;align-self:flex-start;flex:none}
+.msg.me{align-self:flex-end;background:#0f1b2d;color:#fff;border:0;border-radius:14px 14px 4px 14px}
+.msg.ai{border-color:#b9c9f3;background:#f1f5ff;max-width:94%}
+.who{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:800;color:#0032a0;margin-bottom:2px}
+.who .eye{width:16px;height:16px}
+.who .role{font-weight:600;color:#5b6577}
+.inp{margin:0 12px 14px;height:40px;border-radius:20px;border:1px solid #d5dae1;background:#fff;display:flex;align-items:center;padding:0 14px;font-size:12px;color:#5b6577;flex:none}
+.btnp{min-height:38px;border-radius:12px;border:0;background:#0032a0;color:#fff;font:700 13px 'Plus Jakarta Sans',system-ui,sans-serif;width:100%;display:flex;align-items:center;justify-content:center;gap:6px}
+.btns{min-height:38px;border-radius:12px;border:1px solid #b9c9f3;background:#fff;color:#0032a0;font:700 13px 'Plus Jakarta Sans',system-ui,sans-serif;width:100%;display:flex;align-items:center;justify-content:center}
+.pill{font-family:inherit;display:inline-flex;align-items:center;height:24px;padding:0 9px;border-radius:12px;font-size:10.5px;font-weight:700;border:1px solid #d5dae1;background:#fff;color:#0f1b2d;white-space:nowrap;gap:4px}
+.pill.b{background:#0032a0;border-color:#0032a0;color:#fff}
+.pill.g{background:#e6f4ec;border-color:#bfe3cf;color:#0b6b47}
+.pill.y{background:#fff5d6;border-color:#f0dc9a;color:#7a5a00}
+.pill.x{background:#eef1f4;border-color:#d5dae1;color:#4a5466}
+.pill.r{background:#fdecec;border-color:#f5c2c4;color:#a3161c}
+.livep{align-self:flex-start;background:#e11b22;color:#fff;font-size:10px;font-weight:800;letter-spacing:.08em;padding:3px 7px;border-radius:4px}
+.stamp{width:66px;height:66px;border-radius:50%;border:3px double #e11b22;color:#e11b22;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:7px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;transform:rotate(-12deg);line-height:1.2;text-align:center;flex:none}
+.stamp b{font-size:11px}
+.pgrid{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:5px;height:104px;margin-top:9px}
+.pgrid span:first-child{grid-row:1/3}
+.photo{border-radius:8px;background:#1d2a4a;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.05) 0 10px,rgba(255,255,255,0) 10px 20px);color:rgba(255,255,255,.75);font-size:9px;font-weight:700;display:flex;align-items:flex-end;padding:6px}
+.barx{height:6px;border-radius:3px;background:#eef1f4;overflow:hidden;display:block}
+.barx i{display:block;height:100%;background:#0032a0}
+.day{align-self:center;font-size:10px;font-weight:700;color:#3a4557;background:#e6e9ee;border-radius:10px;padding:3px 9px;flex:none}
+.sys{align-self:center;font-size:10px;font-weight:600;color:#5b6577;text-align:center;flex:none}
+.av{width:22px;height:22px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:800;flex:none}
+.tap{position:absolute;width:46px;height:46px;border-radius:23px;border:3px solid #e11b22;box-shadow:0 0 0 6px rgba(225,27,34,.18);pointer-events:none}
+.serif{font-family:'Newsreader',Georgia,'Times New Roman',serif}
+/* agent at work panel */
+.work{position:absolute;width:520px;border-radius:20px;background:rgba(4,16,43,.88);border:1px solid rgba(255,255,255,.16);padding:18px 20px 16px;color:#fff;box-shadow:0 30px 70px rgba(0,0,0,.35)}
+.work .wh{display:flex;align-items:center;gap:10px}
+.work .wh .eye{width:34px;height:34px;border-radius:17px}
+.work .wh b{font-size:17px;font-weight:800}
+.work .wh small{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#b9c9f3}
+.work .kick{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9db6ff;margin:14px 0 6px}
+.step{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:10px 0;border-top:1px solid rgba(255,255,255,.12)}
+.step .st{width:24px;height:24px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.st.done{background:#2f8f4e;color:#fff}
+.st.now{background:#e11b22;color:#fff;box-shadow:0 0 0 5px rgba(225,27,34,.25)}
+.st.wait{background:transparent;border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.6)}
+.tool{display:inline-flex;align-items:center;gap:5px;height:20px;padding:0 8px;border-radius:10px;background:rgba(255,255,255,.1);font-size:10.5px;font-weight:800;letter-spacing:.04em;color:#d5dae1}
+.step .tt{font-size:14.5px;font-weight:700;margin-top:5px;line-height:1.3}
+.step .dd{font-size:13px;color:#c9d0d9;line-height:1.4;margin-top:2px}
+.prev{margin-top:8px;border-radius:12px;background:#fff;color:#0f1b2d;overflow:hidden;font-size:12px}
+.prev .url{height:24px;background:#eef1f4;display:flex;align-items:center;gap:6px;padding:0 10px;font-size:10.5px;font-weight:700;color:#5b6577}
+.prev .url i{width:7px;height:7px;border-radius:4px;background:#c9ced7}
+.idea{margin-top:10px;border-radius:12px;border:1px dashed rgba(255,216,74,.6);background:rgba(255,216,74,.08);padding:10px 12px;font-size:13px;line-height:1.42;color:#f3ecd2}
+.idea .ik{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#ffd84a;margin-bottom:3px}
+.mg{background:url(assets/gers/gers-lion.png) center/cover no-repeat!important}.mg svg{visibility:hidden!important}.mg{border-radius:50%;background:#0032a0;display:inline-flex;align-items:center;justify-content:center;flex:none;line-height:0}
+.hand,.rep{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:#c9d0d9}
+.rep{margin-top:4px;padding:10px 12px;border-radius:12px;background:rgba(157,182,255,.12);border:1px solid rgba(157,182,255,.3)}
+.rep .rt{flex-basis:100%;font-size:13px;color:#e6eaf0;line-height:1.4}
+.sub{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#fff}
+.subrole{font-size:12px;color:#9aa6bd}
+.n4{position:absolute;border-radius:12px;background:rgba(4,16,43,.85);border:1px solid rgba(255,255,255,.16);padding:8px 10px;font-size:12px;line-height:1.38;color:#d5dae1}
+.n4 b{color:#fff;font-size:12px}
+.work .ft{font-size:12px;color:#9aa6bd;margin-top:10px;display:flex;justify-content:space-between}
+.phone .serif{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:800;letter-spacing:-.01em}
+.back3{position:absolute;left:36px;top:18px;height:38px;padding:0 8px 0 12px;border-radius:19px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700}
+.back3 kbd{font:700 11px 'Plus Jakarta Sans',sans-serif;padding:2px 7px;border-radius:6px;background:rgba(255,255,255,.18);color:#d5dae1}
+
+/* ---------- Part 2: added for the running page ---------- */
+html,body{height:100%;background:#061230;overflow:hidden}
+.stage{position:absolute;left:50%;top:50%;transform-origin:center center;user-select:none;-webkit-user-select:none}
+.sc{transition:left .45s ease,top .45s ease,transform .45s ease,opacity .45s ease}
+.sc.rail{opacity:.55}
+.sc.pick,.back3,[data-action]{cursor:pointer}
+.back3{font-family:inherit;z-index:3}
+.plabel.rail{font-size:12px;color:rgba(255,255,255,.7)}
+/* Ido, 21 Nov: the ticker must show all its words. The boards cut it with "…"; here it wraps onto a second line instead. */
+.ticker{white-space:normal;height:auto;min-height:34px;padding:6px 14px 6px 6px;line-height:1.3;align-items:center}
+.n4 .to{color:#9db6ff}
+.n4 .nt{margin-top:4px}
+.who .at,.msg .at{color:#0032a0;font-weight:800}
+.msg.me .at{color:#9db6ff}
+/* S2 "How it moves": a new item rises 12 px and fades in over 200 ms */
+.enter{animation:rise .2s ease-out both}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+/* S2: the behind-the-scenes panel slides in from the right over 260 ms */
+.work{transition:top .26s ease}
+.work.slide{animation:slidein .26s ease-out both}
+@keyframes slidein{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+.fade{animation:fadein .3s ease-out both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+/* S2: three dots before Gers replies */
+.dots{display:inline-flex;gap:4px;padding:3px 0}
+.dots i{width:6px;height:6px;border-radius:3px;background:#0032a0;opacity:.35;animation:blink .6s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:1}}
+.placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:700}
+/* the automated walk (test.html) switches all movement off so every screen can be compared exactly */
+.instant *{animation:none!important;transition:none!important}
+/* panel steps that are plain sentences (boards 1.2 and 1.7) */
+.step.note{grid-template-columns:1fr}
+.step.note .dd{font-size:14px;color:#e6eaf0;margin:0}
+/* 1.2 the Matchday countdown button, as drawn on the board */
+.cdbtn{margin-top:4px;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;border-radius:16px;border:0;background:#fff;color:#0032a0;font:800 12px 'Plus Jakarta Sans',system-ui,sans-serif}
+/* 1.7 the outlined phones for the three new chats */
+.splitbox{position:absolute;width:170px;height:350px;border-radius:26px;border:2px dashed rgba(185,201,243,.45);display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
+.splitbox b{font-size:15px}
+.splitbox span{font-size:12px;color:rgba(255,255,255,.66)}
+.splitarrow{position:absolute;color:#b9c9f3}
+/* 1.1 the RangersFC.com menu keeps the serif face (the rule above turns .serif sans inside other phones) */
+.phone .serif.sitemenu{font-family:'Newsreader',Georgia,'Times New Roman',serif;font-weight:700;letter-spacing:.02em}
+/* ---------- Act 2 ---------- */
+/* the two long step-by-step panels (Melbourne 1, Dubai 4) are wider and tighter, as on their boards */
+.work.wide .kick{margin-top:10px}
+.work.wide .step{padding:8px 0}
+.work.wide .step .st{font-size:12px}
+.work.wide .step .tt{font-size:14px;margin-top:4px}
+.work .brief b{color:#fff}
+.work .brief{margin:8px 0 2px;padding:9px 11px;border-radius:10px;background:rgba(255,255,255,.07);font-size:12.5px;line-height:1.45;color:#dfe5ee}
+.searchmap{margin-top:8px;height:84px;border-radius:12px;position:relative;overflow:hidden;background:#e9edf2;background-image:linear-gradient(90deg,rgba(255,255,255,.9) 2px,transparent 2px),linear-gradient(0deg,rgba(255,255,255,.9) 2px,transparent 2px);background-size:34px 34px}
+.searchmap .river{position:absolute;left:0;right:0;bottom:18px;height:14px;background:#b9d3ee;transform:rotate(-6deg)}
+.searchmap .maplabel{position:absolute;left:8px;top:8px;background:#fff;border-radius:8px;padding:3px 8px;font-size:10.5px;font-weight:700;color:#0f1b2d}
+.checkchip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;background:rgba(52,168,83,.18);color:#9be3b0}
+/* Ibrox 3: the Find your seats tabs are real buttons */
+.tabchip{font:700 10px 'Plus Jakarta Sans',system-ui,sans-serif;padding:3px 8px;border-radius:99px;border:0;cursor:pointer}
+.phone button{cursor:pointer}
+/* the goodie bag's small celebration: the card pops and its confetti drops in */
+.confetti{position:absolute;width:7px;height:7px}
+.goodie.enter{animation:pop .45s cubic-bezier(.2,1.4,.4,1) both}
+.goodie.enter .confetti{animation:drop .6s ease-out both}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes drop{from{opacity:0;margin-top:-18px}to{opacity:1;margin-top:0}}
+/* ---------- Acts 3 and 4 ---------- */
+/* the countdown shows both crests in its header, as on boards 3.1 to 3.6 */
+.crest.pair{width:64px!important;height:30px!important;background:url(assets/crests/rangers.svg) left center/30px no-repeat,url(assets/crests/celtic.png) right center/30px no-repeat!important}
+[aria-label="Dundee crest"]{background-size:auto 76%!important}
+/* 3.4: the other four legends in "The rest of the series" show their faces */
+.card[class*="lg-"] .li .num{color:transparent!important;background-size:cover!important;background-position:center!important}
+.lg-bf .li:nth-child(2) .num,.lg-bl .li:nth-child(2) .num,.lg-am .li:nth-child(2) .num{background-image:url(assets/legends-web/mccoist-face.jpg)!important}
+.lg-bf .li:nth-child(3) .num,.lg-am .li:nth-child(3) .num,.lg-mc .li:nth-child(2) .num{background-image:url(assets/legends-web/laudrup-face.jpg)!important}
+.lg-bl .li:nth-child(3) .num,.lg-am .li:nth-child(4) .num,.lg-mc .li:nth-child(3) .num{background-image:url(assets/legends-web/ferguson-face.jpg)!important}
+.lg-bf .li:nth-child(4) .num,.lg-bl .li:nth-child(4) .num,.lg-mc .li:nth-child(4) .num{background-image:url(assets/legends-web/mcgregor-face.jpg)!important}
+.lg-bf .li:nth-child(5) .num,.lg-bl .li:nth-child(5) .num,.lg-am .li:nth-child(5) .num,.lg-mc .li:nth-child(5) .num{background-image:url(assets/legends-web/tavernier-face.jpg)!important}
+/* 4.1: the fans' photos in the chats */
+.photo[class*="fx-"]{background-size:cover;background-position:center;color:transparent}
+.photo.fx-seats{background-image:url(assets/fans/ibrox-seats.jpg);background-position:center 60%}
+.photo.fx-bar{background-image:url(assets/fans/bar.jpg)}
+.photo.fx-pub{background-image:url(assets/fans/pubcrew.jpg)}
+.photo.fx-hq{background-image:url(assets/fans/bar.jpg);background-position:85% 20%}
+.photo.fx-flat{background-image:url(assets/fans/flat.jpg)}
+/* 4.5 and 4.6: the passport photos and the crests on the full-time strip */
+.pgrid span.photo{background-size:cover!important;background-position:center!important;color:#fff!important;text-shadow:0 1px 3px rgba(0,0,0,.85)}
+.pgrid span.photo[style*="bar.jpg"]:nth-child(3){background-position:85% 20%!important}
+.heroC[style*="padding:11px 13px"]{position:relative}
+.heroC[style*="padding:11px 13px"]::after{content:"";position:absolute;right:12px;top:50%;transform:translateY(-50%);width:68px;height:30px;background:url(assets/crests/rangers.svg) left center/30px no-repeat,url(assets/crests/celtic.png) right center/30px no-repeat}
+/* pop-ups on a phone (stat breakdowns, a member's profile, "Your matchday"): a sheet over a dimmed screen, as on board 4.2 */
+.popscrim{position:absolute;inset:0;background:rgba(15,27,45,.45);display:flex;flex-direction:column;justify-content:flex-end;z-index:5;cursor:pointer}
+.popsheet{cursor:default;animation:sheetup .22s ease-out both}
+@keyframes sheetup{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+[data-action="profile"]{cursor:pointer}
+/* 4.3: the picture turns when the camera changes */
+.tvpitch{transition:transform .9s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+/* the card between Act 2 and the countdown week */
+.interlude{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;animation:fadein .4s ease-out both}
+.interlude .kick{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9db6ff}
+.interlude .big{font-size:76px;font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-top:10px}
+.interlude .crestrow{margin-bottom:22px}
+.interlude p{font-size:21px;color:#d5dae1;margin:16px 0 0;max-width:720px;line-height:1.4}
+.fanrow{display:flex;gap:18px;margin-top:44px}
+.fanchip{width:190px;padding:18px 12px 16px;border-radius:18px;background:rgba(4,16,43,.85);border:1px solid rgba(255,255,255,.16);display:flex;flex-direction:column;align-items:center;gap:3px}
+.fanchip.wide{width:260px}
+.fanchip .av{font-size:16px!important;margin-bottom:8px}
+.fanchip b{font-size:17px;font-weight:800}
+.fanchip span{font-size:14px;font-weight:700;color:#9db6ff}
+.fanchip small{font-size:12px;color:rgba(255,255,255,.66)}
+/* Ido, 22 Nov: a screen with more on it than fits can be scrolled (wheel, trackpad or drag on a touch screen). A soft fade at the foot shows there is more. */
+.ph-b{overflow-y:auto;scrollbar-width:none;overscroll-behavior:contain}
+.ph-b::-webkit-scrollbar{display:none}
+/* a chat still sits at the bottom of the phone, and earlier lines can be scrolled back to */
+.ph-b.chat{justify-content:flex-start}
+.ph-b.chat>:first-child{margin-top:auto}
+.phone.more::after{content:"";position:absolute;left:0;right:0;bottom:0;height:46px;background:linear-gradient(180deg,rgba(246,247,249,0),#f6f7f9 85%);pointer-events:none;z-index:2}
+.phone.more::before{content:"";position:absolute;left:50%;bottom:9px;width:9px;height:9px;margin-left:-5px;border-right:2.5px solid #0032a0;border-bottom:2.5px solid #0032a0;transform:rotate(45deg);z-index:3;pointer-events:none}
