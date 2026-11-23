@@ -352,7 +352,7 @@
       ],
       steps: [
         { add: [['ibroxLot', { type: 'day', cut: true, text: 'Sun 3 Jan · 12:34 in Glasgow' }],
-          ['ibroxLot', { type: 'goalCard', kicker: 'GOAL · 34’', title: 'Rangers 1, Celtic 0', detail: 'Ibrox · Kicks Bar · Morag’s flat, all at once' }]] },
+          ['ibroxLot', { type: 'goalCard', kicker: 'GOAL · 34’', title: 'Rangers 1, Celtic 0' }]] },
         { add: [['ibroxLot', { type: 'msg', from: 'aileen', text: 'GET IN' }], ['ibroxLot', { type: 'msg', from: 'fraser', text: 'Kicks Bar is BOUNCING' }]] },
         { add: [['ibroxLot', { type: 'msg', from: 'morag', text: 'The flat’s shaking' }], ['ibroxLot', { type: 'msg', from: 'rory', text: 'I can’t hear myself think' }]] },
         { add: [['ibroxLot', { type: 'msg', from: 'hamish', text: '11.34pm and I’m hugging strangers' }], ['ibroxLot', { type: 'msg', from: 'calum', text: 'Ten of us screaming in Dubai' }]] }

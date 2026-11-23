@@ -106,7 +106,7 @@
     },
     // 4.4: the goal
     goalCard: function (item) {
-      return '<div class="heroC" style="background:#e11b22"><span style="letter-spacing:.1em;font-weight:800">' + esc(item.kicker) + '</span><b>' + esc(item.title) + '</b><span>' + esc(item.detail) + '</span></div>';
+      return '<div class="heroC" style="background:#e11b22"><span style="letter-spacing:.1em;font-weight:800">' + esc(item.kicker) + '</span><b>' + esc(item.title) + '</b>' + (item.detail ? '<span>' + esc(item.detail) + '</span>' : '') + '</div>';
     },
 
     // 4.3: Rangers TV. Nothing covers the picture; the camera tag, stats and commentary sit below it, then the choices.
