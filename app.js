@@ -205,8 +205,15 @@
     }
     shownSplit = state.split;
     if (scene.interlude) html += R.interlude(scene.interlude);
+    if (scene.club) html += R.club(scene, stops[app.stop].step, app.local);
+    // a tap inside the club view (a person in a network) keeps the page where it was scrolled to
+    var clubPage = el.overlay.querySelector('.cv-main');
+    var clubScroll = clubPage && app.lastMove === 'none' ? clubPage.scrollTop : 0;
+    // the club view fades in on arrival, but not when a tap only changes the page it is on
+    el.overlay.classList.toggle('arrive', !!scene.club && app.lastMove !== 'none');
     if (scene.placeholder) html += '<div class="placeholder serif">' + esc(STORY.ui.clubViewPlaceholder) + '</div>';
     el.overlay.innerHTML = html;
+    if (clubScroll) el.overlay.querySelector('.cv-main').scrollTop = clubScroll;
   }
 
   function drawPanel(use) {

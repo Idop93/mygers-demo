@@ -157,6 +157,8 @@
     if (!thread) throw new Error('Unknown thread: ' + threadId);
     if (thread.kind === 'site') return siteHtml(thread);
     var title = '<div class="t"><small>' + esc(thread.countdown ? STORY.week.sub : thread.sub) + '</small><b>' + esc(thread.title) + '</b></div>';
+    // a one-to-one chat with Gers: its mark and its name, nothing else
+    if (thread.gers) title = '<div class="t" style="flex-direction:row;align-items:center;gap:8px">' + gersMark(28) + '<b>' + esc(thread.title) + '</b></div>';
     if (thread.kind === 'chat') {
       var avatars = thread.avatars.map(function (id) { return '<span data-action="profile" data-fan="' + esc(id) + '">' + avatar(id, 24) + '</span>'; }).join('');
       // a day marker flagged `cut` starts a fresh screen, as the boards do when the story jumps to a later day
