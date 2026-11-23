@@ -5,7 +5,7 @@
    Order on the main line: 2.2 → the "7 days to go" card → 3.1 … 3.6 → 3.8 → 3.7 → 3.9 → the "It’s matchday" card → 4.1 … 4.6 → club view.
    3.8 comes straight after 3.6 because it is the close-up of Calum's 3.6 phone; 3.9 follows 3.7 the same way.
 
-   DRAFTS awaiting Ido's confirmation are marked DRAFT below. */
+   The wordings marked DRAFT below were written by the agent and confirmed by Ido on 22 Nov 2026. */
 (function () {
   'use strict';
   var STORY = window.STORY;
@@ -170,7 +170,7 @@
         { status: 'done', icon: 'people', tool: 'Watch Party HQ', title: '10 members · host Morag, 58' },
         { status: 'done', icon: 'db', tool: 'Matched by age', title: 'Morag grew up with Ally McCoist', detail: 'Each fan follows the legend of the era they grew up with.' },
         { status: 'done', icon: 'mail', tool: 'Request to the club', title: 'Script: Morag’s name, the party, 16:00 kick-off in Dubai' },
-        { status: 'done', icon: 'video', tool: 'Recorded by the club’s media team', title: '45 seconds · placeholder in the demo' },
+        { status: 'done', icon: 'video', tool: 'Recorded by the club’s media team', title: '45 seconds' },
         { status: 'done', icon: 'mail', tool: 'Delivered', title: 'Sat 2 Jan, 10:00 Dubai time', detail: 'In their MyGers membership. Nothing extra to pay.' }
       ],
       footer: 'Nothing is booked, bought or sent without the fan’s approval.'

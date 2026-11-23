@@ -221,3 +221,20 @@ html,body{height:100%;background:#061230;overflow:hidden}
 .ph-b.chat>:first-child{margin-top:auto}
 .phone.more::after{content:"";position:absolute;left:0;right:0;bottom:0;height:46px;background:linear-gradient(180deg,rgba(246,247,249,0),#f6f7f9 85%);pointer-events:none;z-index:2}
 .phone.more::before{content:"";position:absolute;left:50%;bottom:9px;width:9px;height:9px;margin-left:-5px;border-right:2.5px solid #0032a0;border-bottom:2.5px solid #0032a0;transform:rotate(45deg);z-index:3;pointer-events:none}
+
+/* ---------- The chapter menu (chapters.js): a handle on the left edge of the window and a drawer over the page.
+   It sits outside the stage so it reaches the window's edge on any screen shape; --fit is the stage's scale. ---------- */
+#chapters{font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;color:#fff;user-select:none;-webkit-user-select:none}
+.chandle{position:fixed;left:0;top:50%;width:22px;height:84px;margin-top:-42px;padding:0;border:1px solid rgba(255,255,255,.22);border-left:0;border-radius:0 11px 11px 0;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20;transform-origin:0 50%;transform:scale(var(--fit,1));transition:background .15s,color .15s}
+.chandle:hover{background:rgba(255,255,255,.22);color:#fff}
+.chscrim{position:fixed;inset:0;background:rgba(6,18,48,.55);opacity:0;pointer-events:none;transition:opacity .22s ease;z-index:21}
+.chdrawer{position:fixed;left:0;top:0;width:300px;height:calc(100vh / var(--fit,1));box-sizing:border-box;padding:24px 14px;overflow-y:auto;background:#0a1d52;border-right:1px solid rgba(255,255,255,.16);box-shadow:12px 0 40px rgba(0,0,0,.35);transform-origin:0 0;transform:scale(var(--fit,1)) translateX(-105%);visibility:hidden;transition:transform .22s ease,visibility 0s .22s;z-index:22}
+#chapters.open .chscrim{opacity:1;pointer-events:auto}
+#chapters.open .chdrawer{transform:scale(var(--fit,1));visibility:visible;transition:transform .22s ease}
+.chdrawer h2{font-size:20px;font-weight:800;margin:0 10px 2px}
+.chgroup{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#9db6ff;margin:16px 10px 5px}
+.chitem{display:flex;align-items:center;gap:10px;width:100%;height:32px;padding:0 10px;border:0;border-radius:8px;background:none;color:#d5dae1;font:600 14.5px 'Plus Jakarta Sans',system-ui,sans-serif;text-align:left;cursor:pointer;outline:none}
+.chitem::before{content:"";flex:none;width:6px;height:6px;border-radius:3px}
+.chitem.here{color:#fff;font-weight:800}
+.chitem.here::before{background:#fff}
+.chitem.picked,.chitem:hover{background:rgba(255,255,255,.13);color:#fff}

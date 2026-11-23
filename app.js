@@ -285,6 +285,18 @@
     app.track = lengths.map(function (length) { return arriving === 'end' ? length : 0; });
     app.focus = null;
   }
+  // Staying zoomed in: when the presenter steps on while a phone is enlarged, the same fan's
+  // phone is enlarged again on the screen they arrive at. It is not kept where that fan has no
+  // phone, or where the screen is a focus board with its own enlarged phone.
+  function ownerInFocus() { return app.focus ? sceneHere().phones[app.focus.phone].owner : null; }
+  function refocus(owner) {
+    var scene = sceneHere();
+    if (owner === null || scene.phones.length < 2 || scene.focusPhone !== undefined) return;
+    scene.phones.forEach(function (phone, i) {
+      var target = scene.focus && scene.focus[i];
+      if (phone.owner === owner && !(target && target.scene)) app.focus = { phone: i };
+    });
+  }
   // Phones' own timelines only run once the scene's shared steps are done.
   function onLastSharedStep() { return stops[app.stop].step === sceneHere().steps.length - 1; }
 
@@ -293,7 +305,11 @@
     if (app.focus) {
       var phone = app.focus.phone;
       if (onLastSharedStep() && app.track[phone] < lengths[phone]) return move('forward', function () { app.track[phone]++; app.fresh.tracks = [phone]; });
-      return unfocus();   // nothing more on this phone: back to all the phones
+      // The end of a phone's own timeline (the Act 2 journeys) returns to all the phones.
+      if (trackOf(sceneHere(), phone) || app.stop >= stops.length - 1) return unfocus();
+      // A phone with no timeline of its own steps on with the story, and stays enlarged.
+      var owner = ownerInFocus();
+      return move('forward', function () { goToStop(app.stop + 1, 'start'); refocus(owner); app.fresh.main = true; });
     }
     var scene = sceneHere();
     var unfinished = [];
@@ -313,7 +329,9 @@
     if (app.focus) {
       var phone = app.focus.phone;
       if (app.track[phone] > 0) return move('back', function () { app.track[phone]--; });
-      return unfocus();
+      if (trackOf(sceneHere(), phone) || app.stop === 0) return unfocus();
+      var owner = ownerInFocus();
+      return move('back', function () { goToStop(app.stop - 1, 'end'); refocus(owner); });
     }
     // With all phones on screen, undo the latest joint step: the phones that are furthest along step back one rest.
     var scene = sceneHere();
@@ -339,9 +357,19 @@
     for (var i = 0; i < stops.length; i++) if (STORY.scenes[stops[i].scene].id === id) return i;
     throw new Error('Unknown scene: ' + id);
   }
-  function goToScene(id) {
+  // keepFocus: a tap on a countdown day while zoomed in on a fan stays zoomed in on that fan.
+  function goToScene(id, keepFocus) {
     var index = firstStopOf(id);
-    move('jump', function () { goToStop(index, 'jump'); });
+    var owner = keepFocus === true ? ownerInFocus() : null;
+    move('jump', function () { goToStop(index, 'jump'); refocus(owner); });
+  }
+  // The chapter menu's jump: to the first screen of a scene, or, with a phone number, to that
+  // scene with the phone enlarged and its own timeline at the start.
+  function goToChapter(id, phone) {
+    if (phone === undefined) return goToScene(id);
+    var index = firstStopOf(id);
+    while (index + 1 < stops.length && stops[index + 1].scene === stops[index].scene) index++;   // timelines run after the shared steps
+    move('jump', function () { goToStop(index, 'jump'); app.focus = { phone: phone }; });
   }
   // Opens a focus board from its phone, remembering where the presenter was.
   function openFocusBoard(id) {
@@ -394,7 +422,7 @@
     if (action && action.dataset.action === 'back') return unfocus();
     if (action && action.dataset.action === 'tab') return setLocal(action.dataset.key, action.dataset.value);
     // A button may point at a scene a later build stage adds; until then it does nothing.
-    if (action && action.dataset.action === 'goto') { if (sceneExists(action.dataset.scene)) goToScene(action.dataset.scene); return; }
+    if (action && action.dataset.action === 'goto') { if (sceneExists(action.dataset.scene)) goToScene(action.dataset.scene, true); return; }
     var phone = event.target.closest('.sc');
     if (action && action.dataset.action === 'closepop') return closePop();
     if (event.target.closest('.popsheet')) return;                    // a tap inside an open pop-up does nothing
@@ -405,8 +433,10 @@
     forward();
   }
 
+  // How much the 1440 x 900 stage is scaled to fit the window.
+  function fitScale() { return Math.min(window.innerWidth / STAGE.width, window.innerHeight / STAGE.height); }
   function fitStage() {
-    var scale = Math.min(window.innerWidth / STAGE.width, window.innerHeight / STAGE.height);
+    var scale = fitScale();
     el.stage.style.transform = 'translate(-50%,-50%) scale(' + scale + ')';
   }
 
@@ -432,7 +462,7 @@
 
   // For test.html and for checking by hand in the browser console.
   window.APP = {
-    state: app, stops: stops, setLocal: setLocal, openPop: openPop, closePop: closePop, forward: forward, back: back, focusPhone: focusPhone, unfocus: unfocus, goToScene: goToScene, draw: draw,
+    state: app, stops: stops, setLocal: setLocal, openPop: openPop, closePop: closePop, forward: forward, back: back, focusPhone: focusPhone, unfocus: unfocus, goToScene: goToScene, goToChapter: goToChapter, draw: draw, fitScale: fitScale,
     sceneHere: sceneHere,
     // What is on screen, as text. Phones are listed in story order, because the page keeps
     // reusing phone elements and their order in the page does not affect what is seen.

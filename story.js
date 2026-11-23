@@ -26,8 +26,44 @@ window.STORY = {
     gers: 'Gers',
     gersTag: '@Gers',
     reportsTo: '→ Gers',
-    clubViewPlaceholder: 'Club view: coming next'
+    clubViewPlaceholder: 'Club view: coming next',
+    chapters: 'Chapters'
   },
+
+  // The chapter menu (the handle on the left edge, or the C key). Each chapter jumps to the first
+  // screen of `scene`; with `focus`, that scene opens with that phone (0, 1 or 2) enlarged.
+  // To reorder, rename, add or drop a chapter, edit this list only.
+  chapters: [
+    { group: 'Opening', items: [
+      { label: 'Today’s RangersFC.com', scene: '1.1' },
+      { label: 'MyGers home', scene: '1.2' }
+    ] },
+    { group: 'Six weeks out', items: [
+      { label: 'The ticket hunt', scene: '1.3' },
+      { label: 'Where to watch · three chats', scene: '1.6' }
+    ] },
+    { group: 'Three journeys', items: [
+      { label: 'All three chats', scene: '2.1' },
+      { label: 'Ibrox · two seats', scene: '2.1', focus: 0 },
+      { label: 'Melbourne · the pub', scene: '2.1', focus: 1 },
+      { label: 'Dubai · the watch party', scene: '2.1', focus: 2 }
+    ] },
+    { group: 'Countdown week', items: [
+      { label: '7 days to go', scene: 'week' },
+      { label: 'Legends’ videos', scene: '3.4' },
+      { label: 'Analyst preview', scene: '3.8' },
+      { label: 'Personalized video', scene: '3.7' }
+    ] },
+    { group: 'Matchday', items: [
+      { label: 'It’s matchday', scene: 'matchday' },
+      { label: 'Ibrox · getting there', scene: '4.2' },
+      { label: 'Dubai · Rangers TV', scene: '4.3' },
+      { label: 'The goal', scene: '4.4' }
+    ] },
+    { group: 'Full time', items: [
+      { label: 'Passports', scene: '4.5' }
+    ] }
+  ],
 
   match: {
     home: 'Rangers', away: 'Celtic', ground: 'Ibrox',
