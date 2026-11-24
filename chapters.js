@@ -22,15 +22,15 @@
     throw new Error('Chapter points at an unknown scene: ' + id);
   }
 
-  // The chapter the story is in now: the last one at or before the current scene. Where several
-  // chapters share a scene (the three journeys), the one whose phone is in focus.
+  // The chapter the story is in now: the last one at or before the current scene. A chapter that
+  // zooms in on one phone counts only while that phone is the one in focus on that scene.
   function chapterHere() {
     var sceneNow = APP.stops[APP.state.stop].scene;
     var focusNow = APP.state.focus ? APP.state.focus.phone : undefined;
     var best = 0;
     chapters.forEach(function (chapter, i) {
       if (chapter.at > sceneNow) return;
-      if (chapter.at > chapters[best].at || (chapter.at === sceneNow && chapter.focus === focusNow)) best = i;
+      if (chapter.focus === undefined ? chapter.at > chapters[best].at : (chapter.at === sceneNow && chapter.focus === focusNow)) best = i;
     });
     return best;
   }
@@ -54,7 +54,7 @@
   function jump(index) {
     var chapter = chapters[index];
     menu.open = false;
-    APP.goToChapter(chapter.scene, chapter.focus);
+    APP.goToChapter(chapter.scene, chapter.focus, chapter.step);
     show();
   }
 
@@ -91,7 +91,7 @@
       html += '<div class="chgroup">' + esc(group.group) + '</div>';
       group.items.forEach(function (item) {
         html += '<button class="chitem" data-chapter="' + chapters.length + '">' + esc(item.label) + '</button>';
-        chapters.push({ scene: item.scene, focus: item.focus, at: sceneNumber(item.scene) });
+        chapters.push({ scene: item.scene, focus: item.focus, step: item.step, at: sceneNumber(item.scene) });
       });
     });
     el.root = document.createElement('div');

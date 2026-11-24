@@ -31,7 +31,8 @@ window.STORY = {
   },
 
   // The chapter menu (the handle on the left edge, or the C key). Each chapter jumps to the first
-  // screen of `scene`; with `focus`, that scene opens with that phone (0, 1 or 2) enlarged.
+  // screen of `scene`; with `focus`, that scene opens with that phone (0, 1 or 2) enlarged, and
+  // `step` puts that phone that many steps along its own timeline.
   // To reorder, rename, add or drop a chapter, edit this list only.
   chapters: [
     { group: 'Opening', items: [
@@ -56,8 +57,8 @@ window.STORY = {
     ] },
     { group: 'Matchday', items: [
       { label: 'It’s matchday', scene: 'matchday' },
-      { label: 'Ibrox · getting there', scene: '4.2' },
-      { label: 'Dubai · Rangers TV', scene: '4.3' },
+      { label: 'Ibrox · getting there', scene: '4.1', focus: 0, step: 4 },
+      { label: 'Dubai · Rangers TV', scene: '4.1', focus: 2, step: 4 },
       { label: 'The goal', scene: '4.4' }
     ] },
     { group: 'Full time', items: [

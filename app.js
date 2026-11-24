@@ -53,7 +53,8 @@
   function restPoints(track) {
     var rests = [0];
     if (!track) return rests;
-    track.steps.forEach(function (step, k) { if (step.add || step.patch) rests.push(k + 1); });
+    // `rest: true` marks a step that changes the phone without adding to it, such as a switch to another screen
+    track.steps.forEach(function (step, k) { if (step.add || step.patch || step.rest) rests.push(k + 1); });
     rests[rests.length - 1] = track.steps.length;
     return rests;
   }
@@ -372,11 +373,12 @@
   }
   // The chapter menu's jump: to the first screen of a scene, or, with a phone number, to that
   // scene with the phone enlarged and its own timeline at the start.
-  function goToChapter(id, phone) {
+  // `taken` puts that phone part-way along its own timeline (the other phones stay at their start).
+  function goToChapter(id, phone, taken) {
     if (phone === undefined) return goToScene(id);
     var index = firstStopOf(id);
     while (index + 1 < stops.length && stops[index + 1].scene === stops[index].scene) index++;   // timelines run after the shared steps
-    move('jump', function () { goToStop(index, 'jump'); app.focus = { phone: phone }; });
+    move('jump', function () { goToStop(index, 'jump'); app.focus = { phone: phone }; app.track[phone] = taken || 0; });
   }
   // Opens a focus board from its phone, remembering where the presenter was.
   function openFocusBoard(id) {

@@ -310,7 +310,12 @@
         ] },
       steps: [{}] },
 
-    { id: '4.1', title: 'Before kick-off, three places', phones: matchdayPhones, focus: { 0: { scene: '4.2' }, 2: { scene: '4.3' } },
+    // Each phone has its own timeline here, as on 2.1 (see `journeys` matchIbrox, matchPub, matchDubai below):
+    // with all three on screen one click moves every phone; with one enlarged, only that phone steps and the
+    // other two hold. Boards 4.2 (Ibrox: Your matchday) and 4.3 (Dubai: Rangers TV) are the last steps of
+    // the Ibrox and Dubai timelines, not screens of their own.
+    { id: '4.1', title: 'Before kick-off, three places', phones: matchdayPhones,
+      focus: { 0: 'matchIbrox', 1: 'matchPub', 2: 'matchDubai' },
       steps: [
         { add: [
           ['ibroxTwo', { type: 'day', cut: true, text: 'Sun 3 Jan · matchday' }],
@@ -319,29 +324,8 @@
           ['pubCrew', { type: 'gers', text: 'It’s matchday, Pub Crew! I checked with Kicks Bar at 21:30: the game’s on the big screen with the sound up, and your table’s waiting. The Melbourne Rangers lot are already in.' }],
           ['hq', { type: 'day', cut: true, text: 'Sun 3 Jan · 15:20' }],
           ['hq', { type: 'gers', text: 'It’s matchday, Watch Party HQ! Rangers TV is live on Morag’s telly and the flat looks the part. If you fancy more, you can also watch on your phones: pick a camera angle, replays or live stats.' }]
-        ] },
-        { add: [
-          ['ibroxTwo', { type: 'teamSheet', size: 'small', label: 'Team sheet · 11:00 · 4-4-2', badge: 'NEW' }],
-          ['pubCrew', { type: 'promiseCard', title: 'Kicks Bar · table for 3', pill: 'Promise kept', detail: 'Match on and sound on, as confirmed on 13 Dec' }],
-          ['hq', { type: 'photo', image: 'flat', height: 110, alt: 'Photo · the flat, dressed from the goodie bag' }]
-        ] },
-        { add: [
-          ['ibroxTwo', { type: 'photo', image: 'seats', height: 80, alt: 'Photo · Aileen and Rory, CF3 row G' }],
-          ['pubCrew', { type: 'photoGrid', images: ['bar', 'pub', 'hq'], alt: 'Photo · the bar' }],
-          ['hq', { type: 'msg', from: 'niamh', text: 'Scarves on. Playlist on. Ready' }]
-        ] },
-        { add: [
-          ['ibroxTwo', { type: 'msg', from: 'rory', text: 'Look at this place' }],
-          ['pubCrew', { type: 'msg', from: 'hamish', text: 'A Rangers crowd in Melbourne at 11pm. Love it' }],
-          ['hq', { type: 'msg', from: 'calum', text: 'Pies are in the oven' }]
         ] }
       ] },
-
-    { id: '4.2', title: 'Focus Ibrox: getting there', phones: matchdayPhones, focusPhone: 0, parent: '4.1', focus: { 2: { scene: '4.3' } },
-      steps: [{ view: { 0: 'matchday' }, panel: { id: 'gettingThere', show: 1 } }, { panel: { id: 'gettingThere', show: 2 } }, { panel: { id: 'gettingThere', show: 3 } }, { panel: { id: 'gettingThere', show: 4 } }] },
-
-    { id: '4.3', title: 'Focus Dubai: watching on Rangers TV', phones: withSub(matchdayPhones, 2, 'Morag’s flat, Dubai · 16:27'), focusPhone: 2, parent: '4.1', focus: { 0: { scene: '4.2' } },
-      steps: [{ view: { 2: 'tv' }, panel: { id: 'watching', show: 1 } }, { panel: { id: 'watching', show: 2 } }, { panel: { id: 'watching', show: 3 } }, { panel: { id: 'watching', show: 4 } }] },
 
     // The goal lands in the main Ibrox Lot chat, shown on all three phones, each from its owner's side.
     { id: '4.4', title: '34 minutes: the goal, in three cities',
@@ -377,11 +361,39 @@
     { id: 'club', title: 'Club view placeholder', placeholder: true, phones: [], steps: [{}] }
   ]);
 
+  // 4.1: what each of the three matchday phones adds after Gers's opening line, one step per click.
+  var tvLabel = withSub(matchdayPhones, 2, 'Morag’s flat, Dubai · 16:27')[2];   // the label under the Dubai phone once the match is on
+  STORY.journeys.matchIbrox = { steps: [
+    { add: [['ibroxTwo', { type: 'teamSheet', size: 'small', label: 'Team sheet · 11:00 · 4-4-2', badge: 'NEW' }]] },
+    { add: [['ibroxTwo', { type: 'photo', image: 'seats', height: 80, alt: 'Photo · Aileen and Rory, CF3 row G' }]] },
+    { add: [['ibroxTwo', { type: 'msg', from: 'rory', text: 'Look at this place' }]] },
+    // board 4.2: the phone turns to the Matchday screen; in focus the panel's four steps tick in
+    { rest: true, view: 'matchday', panel: { id: 'gettingThere', show: 1 } },
+    { view: 'matchday', panel: { id: 'gettingThere', show: 2 } },
+    { view: 'matchday', panel: { id: 'gettingThere', show: 3 } },
+    { view: 'matchday', panel: { id: 'gettingThere', show: 4 } }
+  ] };
+  STORY.journeys.matchPub = { steps: [
+    { add: [['pubCrew', { type: 'promiseCard', title: 'Kicks Bar · table for 3', pill: 'Promise kept', detail: 'Match on and sound on, as confirmed on 13 Dec' }]] },
+    { add: [['pubCrew', { type: 'photoGrid', images: ['bar', 'pub', 'hq'], alt: 'Photo · the bar' }]] },
+    { add: [['pubCrew', { type: 'msg', from: 'hamish', text: 'A Rangers crowd in Melbourne at 11pm. Love it' }]] }
+  ] };
+  STORY.journeys.matchDubai = { steps: [
+    { add: [['hq', { type: 'photo', image: 'flat', height: 110, alt: 'Photo · the flat, dressed from the goodie bag' }]] },
+    { add: [['hq', { type: 'msg', from: 'niamh', text: 'Scarves on. Playlist on. Ready' }]] },
+    { add: [['hq', { type: 'msg', from: 'calum', text: 'Pies are in the oven' }]] },
+    // board 4.3: the phone turns to Rangers TV, 27 minutes in; in focus the panel's four steps tick in
+    { rest: true, view: 'tv', label: tvLabel, panel: { id: 'watching', show: 1 } },
+    { view: 'tv', label: tvLabel, panel: { id: 'watching', show: 2 } },
+    { view: 'tv', label: tvLabel, panel: { id: 'watching', show: 3 } },
+    { view: 'tv', label: tvLabel, panel: { id: 'watching', show: 4 } }
+  ] };
+
   // What the story adds for the club view: the analyst preview's partner line reached all 15 fans (3.8),
   // and ten of them watched on Rangers TV, which is part of the membership (4.3).
   STORY.purchases.push(
     { what: 'previewSlot', who: Object.keys(STORY.fans), quantity: 15, scene: '3.8' },
     { what: 'membership', who: Object.keys(STORY.fans), quantity: 15, scene: 'all' }
   );
-  STORY.viewing = { scene: '4.3', viewers: 10, cameras: { main: 6, tactical: 3, goal: 1 }, commentary: { club: 8, crowd: 2 } };
+  STORY.viewing = { scene: '4.1', viewers: 10, cameras: { main: 6, tactical: 3, goal: 1 }, commentary: { club: 8, crowd: 2 } };
 })();
